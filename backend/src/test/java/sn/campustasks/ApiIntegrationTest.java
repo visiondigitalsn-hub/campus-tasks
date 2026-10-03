@@ -42,7 +42,7 @@ class ApiIntegrationTest {
   mvc.perform(delete("/api/v1/subjects/"+sid).header("Authorization","Bearer "+b)).andExpect(status().isNotFound());
   mvc.perform(get("/api/v1/tasks?subjectId="+sid).header("Authorization","Bearer "+b)).andExpect(status().isNotFound());
   mvc.perform(delete("/api/v1/subjects/"+sid).header("Authorization","Bearer "+a)).andExpect(status().isConflict());
-  mvc.perform(get("/api/v1/dashboard").header("Authorization","Bearer "+a)).andExpect(status().isOk()).andExpect(jsonPath("$.overdue").value(1)).andExpect(jsonPath("$.todo").value(1));
+  mvc.perform(get("/api/v1/dashboard").header("Authorization","Bearer "+a)).andExpect(status().isOk()).andExpect(jsonPath("$.overdue").value(1)).andExpect(jsonPath("$.todo").value(1)).andExpect(jsonPath("$.late[0].subjectName").value("Java")).andExpect(jsonPath("$.late[0].subjectId").value(sid));
   mvc.perform(put("/api/v1/tasks/"+tid).header("Authorization","Bearer "+a).contentType("application/json").content(task(sid,"2020-01-01","DONE"))).andExpect(status().isOk());
   mvc.perform(get("/api/v1/dashboard").header("Authorization","Bearer "+a)).andExpect(jsonPath("$.overdue").value(0)).andExpect(jsonPath("$.done").value(1));
   mvc.perform(delete("/api/v1/tasks/"+tid).header("Authorization","Bearer "+a)).andExpect(status().isNoContent());
@@ -67,7 +67,7 @@ class ApiIntegrationTest {
   mvc.perform(post("/api/v1/tasks").header("Authorization","Bearer "+token).contentType("application/json").content(task(sid,"2027-01-01","IN_PROGRESS"))).andExpect(status().isCreated());
   mvc.perform(post("/api/v1/auth/logout").header("Authorization","Bearer "+token)).andExpect(status().isNoContent());
   raw=mvc.perform(post("/api/v1/auth/login").contentType("application/json").content(credentials)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();token=json.readTree(raw).get("token").asText();
-  mvc.perform(get("/api/v1/tasks").header("Authorization","Bearer "+token)).andExpect(jsonPath("$[0].dueDate").value("2027-01-01"));
+  mvc.perform(get("/api/v1/tasks").header("Authorization","Bearer "+token)).andExpect(jsonPath("$[0].dueDate").value("2027-01-01")).andExpect(jsonPath("$[0].subjectName").value("Java")).andExpect(jsonPath("$[0].subjectId").value(sid));
   mvc.perform(get("/api/v1/tasks?subjectId="+sid+"&status=TODO&sort=desc").header("Authorization","Bearer "+token)).andExpect(jsonPath("$.length()").value(1)).andExpect(jsonPath("$[0].status").value("TODO"));
   mvc.perform(post("/api/v1/auth/login").contentType("application/json").content(credentials.replace("Campus123!","Wrong123!"))).andExpect(status().isUnauthorized());
  }
