@@ -11,12 +11,12 @@ Date de travail : 3 octobre 2026. Le statut ci-dessous distingue les tests exéc
 | CRUD, suppression matière non vide | Tests 201/200/204 et refus 409 |
 | Retard, tâche terminée | Test compteurs et exclusion des tâches DONE |
 | Validation, routes privées, logout | Tests 400/401 et jeton supprimé |
-| Reconnexion et tri/filtres | Test données retrouvées après nouveau login |
+| Reconnexion et tri/filtres | Test données retrouvées après nouveau login ; nom et identifiant de matière vérifiés dans la liste et le dashboard |
 | Flutter analyse/tests | Analyse sans problème ; 5 tests réussis (écran + client API/session) |
 | Rapport | PDF de 10 pages généré et relu visuellement ; compilation du source LaTeX indisponible dans l’éditeur intégré |
-| APK debug local | Compilation en cours ; ne constitue pas une livraison signée |
+| APK debug local | Construit avec succès et signature debug vérifiée : app-debug.apk, version 1.0.0+1, URL émulateur 10.0.2.2 ; ne constitue pas une livraison signée avec la clé du groupe |
 | Configuration CI | YAML/XML validés ; CI prévue avec PostgreSQL 17, exécution distante non effectuée |
-| Docker/PostgreSQL réel et redémarrage | À réaliser : Docker absent sur ce poste |
+| Docker/PostgreSQL réel et redémarrage | À réaliser : commande Docker non disponible ici |
 | Publication GitHub/Docker Hub et HTTPS | À réaliser : comptes/serveur/domaine nécessaires |
 | APK signé sur Android distant | À réaliser : clé, URL HTTPS et appareil nécessaires |
 | Mise à jour APK même signature | À réaliser sur une installation existante |

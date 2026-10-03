@@ -1,6 +1,6 @@
 # APK de livraison signé
 
-Aucun APK distant/signé n'est déclaré produit. La signature de livraison utilise exclusivement une clé privée locale ; le build release refuse l'absence de key.properties. Le debug utilise la clé debug habituelle et autorise HTTP vers l'émulateur ; la livraison requiert HTTPS.
+Un APK debug local a été construit pour l'émulateur Android ; aucun APK de livraison connecté au backend distant n'est déclaré produit. La signature de livraison utilise exclusivement une clé privée locale ; le build release refuse l'absence de key.properties. Le debug utilise la clé debug habituelle et autorise HTTP vers l'émulateur ; la livraison requiert HTTPS.
 
 ## Préparer la signature (une fois)
 

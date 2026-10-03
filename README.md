@@ -63,3 +63,9 @@ Suivre [déploiement](docs/DEPLOIEMENT.md), [APK signé](docs/APK.md), [versions
 ## Pour comprendre et présenter
 
 Commencer par [guide pédagogique](docs/COMPRENDRE.md), puis [API](docs/API.md) et [schéma](docs/ARCHITECTURE.md). Le [rapport PDF de 10 pages](output/pdf/CampusTasks-rapport.pdf) (source : [rapport.tex](docs/rapport.tex)) est une version de travail à compléter avec les membres du groupe, captures et résultats réels. Le [scénario de soutenance](docs/DEMO.md) dure 15 minutes.
+
+## Livrables locaux vérifiés
+
+Le JAR exécutable est dans `backend/target/campus-tasks-api-1.0.0.jar`. L'APK de **test pour émulateur** est dans `mobile/build/app/outputs/flutter-apk/app-debug.apk` ; il utilise `http://10.0.2.2:8080/api/v1` et nécessite un backend lancé sur le PC. Il ne remplace pas l'APK de livraison HTTPS signé avec la clé du groupe. Les binaires de compilation sont ignorés par Git et peuvent être reconstruits.
+
+Voir `docs/PREUVES_LOCALES.md` pour les résultats et empreintes des fichiers construits. Les étapes distantes et les essais sur téléphone demeurent distincts.
