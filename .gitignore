@@ -1,0 +1,14 @@
+.env
+*.jks
+*.keystore
+key.properties
+backend/target/
+mobile/build/
+mobile/.dart_tool/
+mobile/.flutter-plugins-dependencies
+mobile/android/local.properties
+mobile/android/.gradle/
+*.log
+tmp/
+
+__pycache__/

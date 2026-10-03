@@ -1,0 +1,56 @@
+@base = http://localhost:8080/api/v1
+@token = replace-with-response-token
+@subject = 1
+@task = 1
+### Créer un compte
+POST {{base}}/auth/register
+Content-Type: application/json
+
+{"name":"Awa","email":"awa@example.com","password":"Campus123!"}
+### Connexion
+POST {{base}}/auth/login
+Content-Type: application/json
+
+{"email":"awa@example.com","password":"Campus123!"}
+### Matières
+GET {{base}}/subjects
+Authorization: Bearer {{token}}
+### Créer matière
+POST {{base}}/subjects
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"name":"Java","description":"Programmation"}
+### Modifier matière
+PUT {{base}}/subjects/{{subject}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"name":"Java avancé","description":"Programmation"}
+### Créer tâche
+POST {{base}}/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"title":"Projet REST","description":"DTO et sécurité","subjectId":{{subject}},"dueDate":"2026-10-30","priority":"HIGH","status":"TODO"}
+### Filtrer
+GET {{base}}/tasks?subjectId={{subject}}&status=TODO&sort=asc
+Authorization: Bearer {{token}}
+### Modifier tâche
+PUT {{base}}/tasks/{{task}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"title":"Projet REST","description":"Terminé","subjectId":{{subject}},"dueDate":"2026-10-30","priority":"HIGH","status":"DONE"}
+### Dashboard
+GET {{base}}/dashboard
+Authorization: Bearer {{token}}
+### Supprimer tâche
+DELETE {{base}}/tasks/{{task}}
+Authorization: Bearer {{token}}
+### Supprimer matière
+DELETE {{base}}/subjects/{{subject}}
+Authorization: Bearer {{token}}
+### Déconnexion
+POST {{base}}/auth/logout
+Authorization: Bearer {{token}}
