@@ -14,10 +14,51 @@ class CampusTasksApp extends StatelessWidget {
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
       useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff245b51)),
-      scaffoldBackgroundColor: const Color(0xfff5f7f4),
-      inputDecorationTheme: const InputDecorationTheme(
-        border: OutlineInputBorder(),
+      colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff087f72)),
+      scaffoldBackgroundColor: const Color(0xfff4f7fa),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Color(0xfff4f7fa),
+        foregroundColor: Color(0xff183b3b),
+        centerTitle: false,
+        titleTextStyle: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.w700,
+          color: Color(0xff183b3b),
+        ),
+      ),
+      cardTheme: CardThemeData(
+        elevation: 0,
+        color: Colors.white,
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: const BorderSide(color: Color(0xffe4ebef)),
+        ),
+      ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: Color(0xff087f72),
+        foregroundColor: Colors.white,
+        elevation: 2,
+      ),
+      navigationBarTheme: const NavigationBarThemeData(
+        backgroundColor: Colors.white,
+        indicatorColor: Color(0xffd9f1eb),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(minimumSize: const Size(0, 52)),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: Color(0xffd6e2e6)),
+        ),
       ),
     ),
     home: SessionGate(api: api),

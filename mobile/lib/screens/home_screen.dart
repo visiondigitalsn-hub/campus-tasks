@@ -173,7 +173,14 @@ class _HomeScreenState extends State<HomeScreen> {
               : Icons.assignment_outlined,
           color: late ? Colors.red.shade700 : null,
         ),
-        title: Text(t['title'] as String),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 10,
+        ),
+        title: Text(
+          t['title'] as String,
+          style: const TextStyle(fontWeight: FontWeight.w700),
+        ),
         subtitle: Text(
           '${t['subjectName']} · ${t['dueDate']}\n${statusLabels[t['status']]} · Priorité ${priorityLabels[t['priority']]}${late ? ' · En retard' : ''}',
         ),
@@ -188,12 +195,82 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget emptyState(
+    IconData icon,
+    String title,
+    String message,
+    String action,
+    VoidCallback onPressed,
+  ) => Center(
+    child: SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(32, 24, 32, 100),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: const BoxDecoration(
+              color: Color(0xffd9f1eb),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, size: 44, color: const Color(0xff087f72)),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Color(0xff61757d), height: 1.5),
+          ),
+          const SizedBox(height: 24),
+          FilledButton.icon(
+            onPressed: onPressed,
+            icon: const Icon(Icons.add),
+            label: Text(action),
+          ),
+        ],
+      ),
+    ),
+  );
+
   Widget dashboardView() => ListView(
     padding: const EdgeInsets.all(16),
     children: [
-      Text(
-        'Une vue claire sur ta semaine',
-        style: Theme.of(context).textTheme.headlineSmall,
+      Container(
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xff075e57), Color(0xff087f72)],
+          ),
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(Icons.school_outlined, color: Color(0xffaee7d7), size: 32),
+            SizedBox(height: 16),
+            Text(
+              'Une semaine bien organisée.',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 25,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Tes cours et tes échéances, au même endroit.',
+              style: TextStyle(color: Color(0xffd1eee7), height: 1.5),
+            ),
+          ],
+        ),
       ),
       const SizedBox(height: 16),
       Wrap(
@@ -207,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
             'overdue': 'En retard',
           }.entries)
             SizedBox(
-              width: 155,
+              width: (MediaQuery.sizeOf(context).width - 40) / 2,
               child: Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -216,7 +293,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Text(
                         '${dashboard[entry.key] ?? 0}',
-                        style: Theme.of(context).textTheme.headlineMedium,
+                        style: Theme.of(context).textTheme.headlineMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.w800,
+                              color: entry.key == 'overdue'
+                                  ? const Color(0xffb54b3a)
+                                  : const Color(0xff087f72),
+                            ),
                       ),
                       Text(entry.value),
                     ],
@@ -252,68 +335,101 @@ class _HomeScreenState extends State<HomeScreen> {
     children: [
       Padding(
         padding: const EdgeInsets.all(12),
-        child: Wrap(
-          spacing: 12,
-          runSpacing: 12,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
-              width: 170,
-              child: DropdownButtonFormField<String>(
-                initialValue: status,
-                decoration: const InputDecoration(labelText: 'Statut'),
-                items: [
-                  const DropdownMenuItem(value: null, child: Text('Tous')),
-                  ...statusLabels.entries.map(
-                    (e) => DropdownMenuItem(value: e.key, child: Text(e.value)),
-                  ),
-                ],
-                onChanged: (v) {
-                  status = v;
-                  load();
-                },
-              ),
-            ),
-            SizedBox(
-              width: 190,
-              child: DropdownButtonFormField<int>(
-                initialValue: subjectId,
-                decoration: const InputDecoration(labelText: 'Matière'),
-                items: [
-                  const DropdownMenuItem(value: null, child: Text('Toutes')),
-                  ...subjects.map(
-                    (s) => DropdownMenuItem<int>(
-                      value: s['id'] as int,
-                      child: Text(
-                        s['name'] as String,
-                        overflow: TextOverflow.ellipsis,
+            Row(
+              children: [
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    initialValue: status,
+                    isExpanded: true,
+                    decoration: const InputDecoration(labelText: 'Statut'),
+                    items: [
+                      const DropdownMenuItem(value: null, child: Text('Tous')),
+                      ...statusLabels.entries.map(
+                        (e) => DropdownMenuItem(
+                          value: e.key,
+                          child: Text(e.value),
+                        ),
                       ),
+                    ],
+                    onChanged: (v) {
+                      status = v;
+                      load();
+                    },
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: DropdownButtonFormField<int>(
+                    initialValue: subjectId,
+                    isExpanded: true,
+                    decoration: const InputDecoration(labelText: 'Matière'),
+                    items: [
+                      const DropdownMenuItem(
+                        value: null,
+                        child: Text('Toutes'),
+                      ),
+                      ...subjects.map(
+                        (s) => DropdownMenuItem<int>(
+                          value: s['id'] as int,
+                          child: Text(
+                            s['name'] as String,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ],
+                    onChanged: (v) {
+                      subjectId = v;
+                      load();
+                    },
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '${tasks.length} tâche${tasks.length == 1 ? '' : 's'}',
+                    style: const TextStyle(
+                      color: Color(0xff61757d),
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ],
-                onChanged: (v) {
-                  subjectId = v;
-                  load();
-                },
-              ),
-            ),
-            IconButton(
-              tooltip: descending
-                  ? 'Échéance décroissante'
-                  : 'Échéance croissante',
-              onPressed: () {
-                descending = !descending;
-                load();
-              },
-              icon: Icon(
-                descending ? Icons.arrow_downward : Icons.arrow_upward,
-              ),
+                ),
+                TextButton.icon(
+                  onPressed: () {
+                    descending = !descending;
+                    load();
+                  },
+                  icon: Icon(
+                    descending ? Icons.arrow_downward : Icons.arrow_upward,
+                    size: 18,
+                  ),
+                  label: Text(descending ? 'Plus lointaines' : 'Plus proches'),
+                ),
+              ],
             ),
           ],
         ),
       ),
       Expanded(
         child: tasks.isEmpty
-            ? const Center(child: Text('Aucune tâche pour ces filtres.'))
+            ? emptyState(
+                Icons.checklist_rounded,
+                status != null || subjectId != null
+                    ? 'Aucun résultat'
+                    : 'Tout commence par une tâche',
+                status != null || subjectId != null
+                    ? 'Essaie un autre statut ou une autre matière.'
+                    : 'Prépare ton prochain devoir et garde tes échéances en vue.',
+                subjects.isEmpty ? 'Ajouter une matière' : 'Créer une tâche',
+                () => edit(subjects.isNotEmpty),
+              )
             : ListView(
                 padding: const EdgeInsets.fromLTRB(12, 0, 12, 80),
                 children: tasks.map(taskCard).toList(),
@@ -322,7 +438,13 @@ class _HomeScreenState extends State<HomeScreen> {
     ],
   );
   Widget subjectsView() => subjects.isEmpty
-      ? const Center(child: Text('Ajoute ta première matière.'))
+      ? emptyState(
+          Icons.auto_stories_outlined,
+          'Tes cours, bien rangés',
+          'Ajoute une matière pour y associer tes devoirs et projets.',
+          'Ajouter une matière',
+          () => edit(false),
+        )
       : ListView(
           padding: const EdgeInsets.fromLTRB(12, 12, 12, 80),
           children: subjects.map((value) {
@@ -330,7 +452,14 @@ class _HomeScreenState extends State<HomeScreen> {
             return Card(
               child: ListTile(
                 leading: const Icon(Icons.menu_book_outlined),
-                title: Text(s['name'] as String),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                title: Text(
+                  s['name'] as String,
+                  style: const TextStyle(fontWeight: FontWeight.w700),
+                ),
                 subtitle: Text(s['description'] as String),
                 onTap: () => edit(false, s),
                 trailing: IconButton(
