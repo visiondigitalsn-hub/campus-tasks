@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/campustasks}
+    url: ${DB_URL:jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:campustasks}}
     username: ${DB_USER:campustasks}
     password: ${DB_PASSWORD}
   jpa:
