@@ -1,13 +1,11 @@
 services:
   - type: web
     name: campus-tasks-api
-    runtime: docker
+    runtime: image
     plan: free
     region: frankfurt
-    repo: https://github.com/visiondigitalsn-hub/campus-tasks
-    branch: main
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: ./backend
+    image:
+      url: docker.io/dvisn/campus-tasks-api:1.0.0
     healthCheckPath: /api/v1/health
     envVars:
       - key: DB_HOST

@@ -4,7 +4,7 @@ Les deux livrables à transmettre sont l’image Docker versionnée publiée sur
 
 ## Déploiement initial
 
-Le fichier `render.yaml` définit un service web Docker et PostgreSQL dans la même région. Il reconstruit `backend/Dockerfile` depuis GitHub. Les identifiants de la base sont injectés par Render, sans les enregistrer dans le dépôt. L’accès externe à la base est désactivé. Spring Boot utilise le port `PORT` fourni par Render.
+Le fichier `render.yaml` définit un service web et PostgreSQL dans la même région. Il utilise l’image publiée `docker.io/dvisn/campus-tasks-api:1.0.0`. Les identifiants de la base sont injectés par Render, sans les enregistrer dans le dépôt. L’accès externe à la base est désactivé. Spring Boot utilise le port `PORT` fourni par Render.
 
 Dans Render, connecter GitHub puis créer un Blueprint depuis le dépôt `visiondigitalsn-hub/campus-tasks`. Choisir `render.yaml`, vérifier les deux offres gratuites et lancer la création. Si une base gratuite existe déjà, adapter la configuration à cette base au lieu d’en créer une seconde.
 
